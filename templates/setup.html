@@ -1,0 +1,108 @@
+<h2>Game Setup</h2>
+
+<form name="form" ng-submit="form.$valid && customValid() && submit()" novalidate>
+
+  <fieldset>
+    <legend>Basic Info</legend>
+
+    <label>Your Initials</label>
+    <input type="text" name="initials" ng-model="players[0].name"
+           placeholder="Your Initials" ng-maxlength="3" required>
+    <p class="error" ng-show="form.initials.$error.maxlength">
+       Maximum of 3 letters
+    </p>
+
+    <label>Card Set</label>
+    <select ng-model="cardSet" ng-options="s.name for s in cardSets"></select>
+
+    <label>Number of Players</label>
+    <label class="radio-label" ng-repeat="i in [3,4,5,6]">
+      <input type="radio" ng-model="$parent.numPlayers" name="numPlayers"
+             ng-value="i">
+      <span class="label-body">{{i}}</span>
+    </label>
+  </fieldset>
+
+  <fieldset>
+    <legend>Player Initials</legend>
+    <p class="help-text">
+      Even if it is not your turn first,
+      Player 2 should be the person after you,
+      Player 3 the person after them etc.
+    </p>
+    <div class="row" ng-repeat="player in players">
+      <input type="text" name="initials{{$index}}"
+            ng-model="player.name" placeholder="Player {{$index+1}} Initials"
+            ng-maxlength="3" ng-disabled="$index === 0" required>
+      <p class="error" ng-show="form.initials{{$index}}.$error.maxlength">
+        Maximum of 3 letters
+      </p>
+    </div>
+    <p class="error" ng-show="!validInitials()">
+        Player initials must be unique
+      </p>
+  </fieldset>
+
+  <fieldset ng-show="numPlayers === 4 || numPlayers === 5">
+    <legend>Extra Cards</legend>
+    <p class="help-text">
+      Tick the players who got dealt an extra card.
+    </p>
+    <div class="check-group">
+      <label ng-repeat="player in players"
+             ng-hide="player.name === undefined || player.name === ''">
+        <input type="checkbox" ng-model="player.hasExtraCard"
+               ng-click="countCards()">
+        <span class="label-body">{{player.name}}</span>
+      </label>
+    </div>
+    <p class="error" ng-show="!validCardTotal()">
+      Total cards should add up to 18<br>
+      (currently {{totalCards}})
+    </p>
+  </fieldset>
+
+  <fieldset>
+    <legend>Your Hand</legend>
+
+    <label>Suspects</label>
+    <div class="check-group">
+      <label ng-repeat="card in cardSet.cards | filter : {group:'Suspect'}">
+        <input type="checkbox" ng-model="card.inHand"
+               ng-init="card.inHand=false">
+        <span class="label-body">{{card.name}}</span>
+      </label>
+    </div>
+
+    <label>Weapons</label>
+    <div class="check-group">
+      <label ng-repeat="card in cardSet.cards | filter : {group:'Weapon'}">
+        <input type="checkbox" ng-model="card.inHand"
+               ng-init="card.inHand=false">
+        <span class="label-body">{{card.name}}</span>
+      </label>
+    </div>
+
+    <label>Locations</label>
+    <div class="check-group">
+      <label ng-repeat="card in cardSet.cards | filter : {group:'Location'}">
+        <input type="checkbox" ng-model="card.inHand"
+               ng-init="card.inHand=false">
+        <span class="label-body">{{card.name}}</span>
+      </label>
+    </div>
+    
+    <p class="error" ng-show="!validHandCount()">
+      There should be {{players[0].numCards}} cards in your hand<br>
+      (currently {{handCount}})
+    </p>
+
+    <p class="error" ng-show="validHandCount() && !validHandCards()">
+      You can't have all the cards from one group in your hand
+    </p>
+  </fieldset>
+
+  <input class="btn" type="submit" value="Start Game"
+         ng-disabled="form.$invalid || !customValid()">
+
+</form>

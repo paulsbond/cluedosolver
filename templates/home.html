@@ -1,0 +1,14 @@
+<h1>Cluedo Solver</h1>
+
+<div class="home-btns">
+    <button class="btn" ng-click="newGame()">New Game</button>
+    <button class="btn" ng-click="continue()" ng-disabled="!utils.dataExists()">Continue</button>
+    <button class="btn" ng-click="reset()" ng-disabled="!utils.dataExists()">Reset</button>
+</div>
+
+<p>
+    <b>Still in early development stages</b><br>
+    This app is designed as an alternative to using pen and paper in a game of
+    Cluedo. It makes the (often messy) note taking easier by working out who
+    owns which cards based off people's responses.
+</p>

@@ -1,0 +1,53 @@
+<h2>Add Turn</h2>
+
+<form name="form" 
+      ng-submit="form.$valid && someoneResponded() && submit()"
+      novalidate>
+
+  <fieldset>
+    <legend>Player</legend>
+    <select ng-model="store.turn.player" required>
+      <option ng-repeat="player in store.players">{{player.name}}</option>
+    </select>
+  </fieldset>
+
+  <fieldset>
+    <legend>Guess</legend>
+    <label>Suspect</label>
+    <select ng-model="store.turn.suspect" required>
+      <option ng-repeat="card in store.cards | filter : {group:'Suspect'}">{{card.name}}</option>
+    </select>
+    <label>Weapon</label>
+    <select ng-model="store.turn.weapon" required>
+      <option ng-repeat="card in store.cards | filter : {group:'Weapon'}">{{card.name}}</option>
+    </select>
+    <label>Location</label>
+    <select ng-model="store.turn.location" required>
+      <option ng-repeat="card in store.cards | filter : {group:'Location'}">{{card.name}}</option>
+    </select>
+  </fieldset>
+
+  <fieldset>
+    <legend>Responses</legend>
+    <div ng-repeat="response in store.turn.responses">
+      <label>{{response.player}}</label>
+      <select ng-model="response.type" required>
+        <option value="null">-</option>
+        <option value="hasNone">No card</option>
+        <option value="hasUnknown">Unknown card</option>
+        <option value="hasSuspect">{{store.turn.suspect}}</option>
+        <option value="hasWeapon">{{store.turn.weapon}}</option>
+        <option value="hasLocation">{{store.turn.location}}</option>
+      </select>
+    </div>
+    <p class="error" ng-show="!someoneResponded()">
+      At least one person must respond
+    </p>
+  </fieldset>
+
+  <div>
+    <input type="submit" class="btn" value="Add Turn"
+           ng-disabled="form.$invalid || !someoneResponded()">
+  </div>
+
+</form>

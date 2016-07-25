@@ -1,0 +1,52 @@
+<h2>Overview</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th ng-repeat="player in store.players">{{player.name}}</th>
+    </tr>
+  </thead>
+  <tbody ng-repeat="card in store.cards | filter : {group:'Suspect'}"
+         ng-class="cardCategory(card)">
+    <tr><td colspan="{{store.players.length}}">{{card.name}}</td></tr>
+    <tr>
+      <td ng-repeat="player in store.players">
+        <span ng-class="icon(player, card)"></span>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<table>
+  <thead>
+    <tr>
+      <th ng-repeat="player in store.players">{{player.name}}</th>
+    </tr>
+  </thead>
+  <tbody ng-repeat="card in store.cards | filter : {group:'Weapon'}"
+         ng-class="cardCategory(card)">
+    <tr><td colspan="{{store.players.length}}">{{card.name}}</td></tr>
+    <tr>
+      <td ng-repeat="player in store.players">
+        <span ng-class="icon(player, card)"></span>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<table>
+  <thead>
+    <tr>
+      <th ng-repeat="player in store.players">{{player.name}}</th>
+    </tr>
+  </thead>
+  <tbody ng-repeat="card in store.cards | filter : {group:'Location'}"
+         ng-class="cardCategory(card)">
+    <tr><td colspan="{{store.players.length}}">{{card.name}}</td></tr>
+    <tr>
+      <td ng-repeat="player in store.players">
+        <span ng-class="icon(player, card)"></span>
+      </td>
+    </tr>
+  </tbody>
+</table>

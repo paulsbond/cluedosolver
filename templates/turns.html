@@ -1,0 +1,26 @@
+<h2>Turns</h2>
+
+<p ng-show="store.turns.length === 0">
+  No turns added yet...
+</p>
+
+<div id="turn{{$index+1}}" class="turn" ng-repeat="turn in store.turns">
+  <h3 ng-click="turn.selected = !turn.selected">Turn {{$index+1}} - {{turn.player}}</h3>
+  <div class="detail" ng-show="turn.selected">
+    <label>Guess</label>
+    <p>
+      {{turn.suspect}}<br/>
+      {{turn.weapon}}<br/>
+      {{turn.location}}<br/>
+    </p>
+
+    <label>Responses</label>
+    <p>
+      <span ng-repeat="response in turn.responses">{{summary(turn, $index)}}<br/></span>
+    </p>
+  </div>
+</div>
+
+<p ng-hide="store.previousState === undefined">
+  <button class="btn" ng-click="undoTurn()">Undo Last Turn</button>
+</p>
